@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting Trail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: white;
+            color: black;
+        }
+        .preset-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+        }
+        textarea {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ff6600; /* Orange border */
+            background-color: #333; /* Dark background */
+            color: white;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            background-color: #ff6600; /* Orange background */
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #ff4500; /* Darker orange */
+        }
+        #output {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ff6600;
+            background-color: #333;
+            color: white;
+            height: 300px; /* 3x taller */
+        }
+        h2 {
+            color: #ff6600; /* Orange title */
+        }
+    </style>
+</head>
+<body>
+    <h2>Troubleshooting Trail</h2>
+    
+    <div id="presetContainer">
+        <!-- Pre-filled, uneditable presets -->
+        <div class="preset-container">
+            <textarea readonly>Rebooted the panel</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+        <div class="preset-container">
+            <textarea readonly>Turned test mode on/off</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+        <div class="preset-container">
+            <textarea readonly>Reset the cellular module</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+        <div class="preset-container">
+            <textarea readonly>Updated panel software</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+        <div class="preset-container">
+            <textarea readonly>Swapped the cell carrier</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+        <div class="preset-container">
+            <textarea readonly>Tried to find plug, and power the panel on</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+        <div class="preset-container">
+            <textarea readonly>Checked phone number in Stages</textarea>
+            <button onclick="autoPaste(this.previousElementSibling)">Paste</button>
+        </div>
+    </div>
+
+    <br>
+    <button onclick="addPreset()">Add New Preset</button>
+    <br>
+    
+    <textarea id="output" placeholder="Click button to paste here..."></textarea>
+    <br>
+    <button onclick="copyToClipboard()">Copy</button>
+    <button onclick="clearOutput()">Clear</button>
+
+    <script>
+        function addPreset() {
+            let presetContainer = document.getElementById("presetContainer");
+            
+            let newDiv = document.createElement("div");
+            newDiv.className = "preset-container";
+            
+            let newTextarea = document.createElement("textarea");
+            newTextarea.placeholder = "Enter a preset message...";
+
+            let newButton = document.createElement("button");
+            newButton.textContent = "Paste";
+            newButton.onclick = function() { autoPaste(newTextarea); };
+
+            newDiv.appendChild(newTextarea);
+            newDiv.appendChild(newButton);
+            presetContainer.appendChild(newDiv);
+        }
+
+        function autoPaste(textarea) {
+            let outputField = document.getElementById("output");
+            let currentTime = new Date().toLocaleTimeString(); // Get current time
+            outputField.value += (outputField.value ? "\n" : "") + "[" + currentTime + "] " + textarea.value;
+        }
+
+        function copyToClipboard() {
+            let outputField = document.getElementById("output");
+            outputField.select();
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
+        }
+
+        function clearOutput() {
+            document.getElementById("output").value = "";
+        }
+    </script>
+</body>
+</html>
